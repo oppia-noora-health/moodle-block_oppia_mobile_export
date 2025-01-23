@@ -2,6 +2,7 @@ $pink: #DD3E77;
 $orange: #FAA31A;
 $blue: #37B7E6;
 $green: #04966E;
+$red : #96042B;
 
 $primary-color: $pink;
 $primary-color-dark: #a81e4f;
@@ -225,22 +226,35 @@ content-section {
     top: unset;
     content: unset;
   }
-  #prevBtn {
-    left: 10vw;
+  // #prevBtn {
+  //   left: 10vw;
 
-    &:after {
-      padding-left: 5px;
-      content: 'PREV';
-    }
-  }
+  //   &:after {
+  //     padding-left: 5px;
+  //     content: 'PREV';
+  //   }
+  // }
 
-  #nextBtn {
-    right: 10vw;
+  // #nextBtn {
+  //   right: 10vw;
 
-    &:before {
-      padding-right: 5px;
-      content: 'NEXT';
-    }
+  //   &:before {
+  //     padding-right: 5px;
+  //     content: 'NEXT';
+  //   }
+  // }
+
+  #prevBtn, #nextBtn {
+    border-radius: 25px;
+    background-color: $green;
+    font-size: 1.2em;
+    font-weight: 900;
+    color: white;
+    text-align: center;
+    padding: 5px 30px;
+    bottom: 5vh;
+    top: unset;
+    content: unset;
   }
 
 }
@@ -543,21 +557,64 @@ feedback-result {
       border: 5px solid $green;
       outline: 3px dashed $green;
     }
+    &[color="red"] {
+      border: 5px solid $red;
+      outline: 3px dashed $red;
+    }
 
 
     content {
       background-color: #FDFAF7;
       text-align: left !important;
 
+      h1,p {
+        &[color="pink"] {
+        color:$pink;
+        }
+        &[color="blue"] {
+        color:$blue;
+        }
+        &[color="orange"] {
+        color:$orange;
+        }
+        &[color="green"] {
+        color:$green;
+        }
+        &[color="red"] {
+        color:$red;
+        }
+      }
+
       answer {
         width: 100%;
-        color: $pink;
+        //color: $pink;
         display: flex;
         box-sizing: border-box;
         background-color: white;
         text-align: center;
         border: 1px solid grey;
         padding: 5%;
+
+        &[color="pink"] {
+          border: 1px solid $pink;
+          color:$pink;
+        }
+        &[color="blue"] {
+          border: 1px solid $blue;
+          color:$blue;
+        }
+        &[color="orange"] {
+          border: 1px solid $orange;
+          color:$orange;
+        }
+        &[color="green"] {
+          border: 1px solid $green;
+          color:$green;
+        }
+        &[color="red"] {
+          border: 1px solid $red;
+          color:$red;
+        }
       }
 
     }

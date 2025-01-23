@@ -99,6 +99,7 @@ $string['error_exporting_no_sections'] = 'The course cannot be exported as there
 $string['export_step1_title'] = 'Export - step 1: Course configuration';
 $string['export_step2_title'] = 'Export - step 2: Quizzes and Feedback configuration';
 $string['export_step3_title'] = 'Export - step 3: Configure password protection';
+$string['export_step7_title'] = 'Export - step 7: Configure Activity Time';
 $string['export_step4_title'] = 'Export - step 4: Activities export and local media management';
 $string['export_step5_title'] = 'Export - step 5: Preserve activity identifiers';
 $string['export_step6_title'] = 'Export - step 6: XML validation and create the course package';
@@ -213,8 +214,12 @@ $string['section_password_added'] = '🔒 Section protected by password';
 $string['section_password_desc'] = 'If you want to lock a topic or activity with password, please enter it in the table below.';
 $string['section_password_label'] = 'Password';
 $string['section_password_invalid'] = '<strong>{$a}</strong>: Section doesn\'t contain any supported activities.';
-
 $string['activity_password_added'] = '🔒 Activity protected by password';
+
+$string['section_activity_time_title'] = 'Activity Time for each Activity';
+$string['section_activity_time_desc'] = 'If you want to add activity time for each activity, please enter it in the table below.';
+$string['activity_activity_time_label'] = 'Activity Time';
+$string['section_activity_time_invalid'] = '<strong>{$a}</strong>: Section doesn\'t contain any supported activities.';
 
 $string['true'] = 'True';
 $string['false'] = 'False';

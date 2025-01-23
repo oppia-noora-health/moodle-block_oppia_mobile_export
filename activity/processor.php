@@ -98,7 +98,7 @@ class ActivityProcessor {
         $this->currentsection = $section;
     }
 
-    public function process_activity($mod, $sect, $actorderno, $xmlnode=null, $xmldoc=null, $password='') {
+    public function process_activity($mod, $sect, $actorderno, $xmlnode=null, $xmldoc=null, $password='',$timspent=3) {
 
         $params = array(
             'id' => $mod->id,
@@ -114,6 +114,7 @@ class ActivityProcessor {
             'quizhtmlfiles' => $this->quizhtmlfiles,
             'videooverlay' => $this->videooverlay,
             'password' => $password,
+            'activity_time' => $activity_time
         );
 
         if ($mod->modname == 'page') {

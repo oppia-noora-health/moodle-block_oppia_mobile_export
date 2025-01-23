@@ -49,11 +49,10 @@ $id = required_param('id', PARAM_INT);
 $stylesheet = required_param('stylesheet', PARAM_TEXT);
 $server = required_param('server', PARAM_TEXT);
 $courseexportstatus = required_param('courseexportstatus', PARAM_TEXT);
-$activityTimeArray = json_decode(required_param('activityTimeArray', PARAM_TEXT), true);
 
 $course = $DB->get_record('course', array('id' => $id));
 
-$PAGE->set_url(PLUGINPATH.'export/step3.php', array('id' => $id));
+$PAGE->set_url(PLUGINPATH.'export/step7.php', array('id' => $id));
 context_helper::preload_course($id);
 $context = context_course::instance($course->id);
 if (!$context) {
@@ -88,8 +87,8 @@ $mods = $modinfo->get_cms();
 
 add_publishing_log($server, $USER->id, $id, "export_start", "Export process starting");
 
-echo "<h2>".$activity_time."</h2>";
-echo "<h2>".get_string('export_step3_title', PLUGINNAME)."</h2>";
+
+echo "<h2>".get_string('export_step7_title', PLUGINNAME)."</h2>";
 echo '<div class="oppia_export_section py-3">';
 
 $configsections = array();
@@ -137,18 +136,18 @@ foreach ($sections as $sect) {
             }
             $mod = $mods[$modnumber];
             
+            $activity_time = get_oppiaconfig($mod->id, 'activity_time', '', false, $server);
+            $password = get_oppiaconfig($mod->id, 'password', '', false, $server);
+            $activities[] = [
+		'modid' => $mod->id,
+		'title' => format_string($mod->name),
+		'password' => $password,
+		'activity_time' => $activity_name
+	    ];
+	  
             if ($mod->visible != 1) {
                 continue;
             }
-            
-            $activity_time = optional_param('activity_'.$mod->id.'_activity_time', '', PARAM_INT);
-            $activityTimeArray[$mod->id] = $activity_time;
-            if ($activity_time !== '') {
-                add_or_update_oppiaconfig($mod->id, 'activity_time', $activityTimeArray[$mod->id], $server);
-            } else {
-                add_or_update_oppiaconfig($mod->id, 'activity_time', 3, $server);
-	    }
-	    
             if ( ($mod->modname == 'page') ||
                     ($mod->modname == 'resource') ||
                     ($mod->modname == 'url')) {
@@ -214,6 +213,13 @@ foreach ($sections as $sect) {
                 'activities' => $activities
             ));
             $sectorderno++;
+            $activityTimeArray = []; // Initialize the new activity time array
+
+	    foreach ($configsections as $section) {
+		    foreach ($section['activities'] as $activity) {
+			$activityTimeArray[$activity['modid']] = $activity['activity_time'];
+		    }
+	    }
         } else {
             echo '<div class="step">'.get_string('section_password_invalid', PLUGINNAME, $secttitle['display_title']).'</div>';
         }
@@ -228,15 +234,16 @@ if ($sectorderno <= 1) {
     echo $OUTPUT->footer();
     die();
 }
+
 echo $OUTPUT->render_from_template(
-    PLUGINNAME.'/export_step3_form',
+    PLUGINNAME.'/export_step7_form',
     array(
         'id' => $id,
         'serverid' => $server,
         'stylesheet' => $stylesheet,
         'courseexportstatus' => $courseexportstatus,
         'sections' => $configsections,
-        'activityTimeArray' => htmlspecialchars(json_encode($activityTimeArray), ENT_QUOTES, 'UTF-8'),
+        'activityTimeArrays_json' => htmlspecialchars(json_encode($activityTimeArray), ENT_QUOTES, 'UTF-8'),
         'wwwroot' => $CFG->wwwroot));
 
 echo $OUTPUT->footer();

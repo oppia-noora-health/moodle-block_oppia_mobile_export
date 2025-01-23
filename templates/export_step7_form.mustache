@@ -1,0 +1,57 @@
+<form name="courseconfig" method="post" action="{{wwwroot}}/blocks/oppia_mobile_export/export/step3.php">
+    <h4>{{# str }}section_activity_time_title,block_oppia_mobile_export{{/ str }}</h4>
+    <p>
+        {{# str }}section_activity_time_desc,block_oppia_mobile_export{{/ str }}
+    </p>
+
+    <div class="quizzes-table">
+        <div class="pure-g titles">
+            <div class="pure-u-lg-17-24 pl-3 pure-u-1 text-left">
+                {{# str }}export_quiz_sectionname,block_oppia_mobile_export{{/ str }}
+            </div>
+            <div class="pure-u-lg-7-24 pure-u-1 text-left">
+                {{# str }}activity_activity_time_label,block_oppia_mobile_export{{/ str }}
+            </div>
+        </div>
+
+        {{#sections}}
+        <div class="pure-g">
+            <div class="pure-u-lg-17-24 pure-u-1 step text-left pl-3">
+                <h5 style="margin-bottom:0;">{{title}}</h5>
+            </div>
+        </div>
+
+        <!-- Display Activities -->
+        {{#activities}}
+        <div class="pure-g secondary">
+            <div class="pure-u-lg-17-24 pure-u-1 text-left pl-3 oppia_export_section">
+                <div class="step">{{title}}</div>
+            </div>
+            <div class="pure-u-lg-7-24 pure-u-1">
+                <input 
+		    class="form-control pure-u-1" 
+		    type="text" 
+		    name="activity_{{modid}}_activity_time" 
+		    value="{{#activity_time}}{{.}}{{/activity_time}}{{^activity_time}}3{{/activity_time}}" 
+		    id="id_s_activity_activity_time_{{modid}}" />
+            </div>
+        </div>
+        {{/activities}}
+        {{/sections}}
+    </div>
+
+    <input type="hidden" name="id" value="{{id}}">
+    <input type="hidden" name="sesskey" value="{{sesskey}}">
+    <input type="hidden" name="mediafiles" value="{{mediafiles}}">
+    <input type="hidden" name="coursepriority" value="{{coursepriority}}">
+    <input type="hidden" name="stylesheet" value="{{stylesheet}}">
+    <input type="hidden" name="courseexportstatus" value="{{courseexportstatus}}">
+    <input type="hidden" name="server" value="{{serverid}}">
+    <input type="hidden" name="coursetags" value="{{coursetags}}">
+    <input type="hidden" name="activityTimeArray" value="{{activityTimeArrays_json}}">
+    <p>
+        <button type="submit" name="submit" class="btn btn-primary">
+            {{# str }}continue,block_oppia_mobile_export{{/ str }}
+        </button>
+    </p>
+</form>

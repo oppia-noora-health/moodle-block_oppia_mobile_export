@@ -407,7 +407,8 @@ foreach ($sections as $sect) {
 
             echo '<div class="step"><strong>' . format_string($mod->name) . '</strong>'.OPPIA_HTML_BR;
             $password = optional_param('mod_'.$mod->id.'_password', '', PARAM_TEXT);
-            $activity = $processor->process_activity($mod, $sect, $actorderno, $activities, $xmldoc, $password);
+            $activity_time = get_oppiaconfig($mod->id, 'activity_time', '', false, $server);
+            $activity = $processor->process_activity($mod, $sect, $actorderno, $activities, $xmldoc, $password,$activity_time);
             if ($activity != null) {
                 $actorderno++;
                 $activitysummaries[$activity->id] = array(

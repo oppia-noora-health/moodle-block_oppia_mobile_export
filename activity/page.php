@@ -83,6 +83,7 @@ class MobileActivityPage extends MobileActivity {
         $webpage .= '<link href="style.css" rel="stylesheet" type="text/css"/>';
         $webpage .= '<script src="js/jquery-3.6.0.min.js"></script>';
         $webpage .= '<script src="js/oppia.js"></script>';
+        $webpage .= '<script src="js/newscreens.js"></script>';
         $webpage .= '</head>';
         $webpage .= '<body>'.$content.'</body></html>';
 
@@ -144,6 +145,7 @@ class MobileActivityPage extends MobileActivity {
                 $temp = $xmldoc->createElement("activity");
                 $temp->appendChild($xmldoc->createAttribute("order"))->appendChild($xmldoc->createTextNode($r->order));
                 $temp->appendChild($xmldoc->createAttribute("digest"))->appendChild($xmldoc->createTextNode($r->digest));
+                $temp->appendChild($xmldoc->createAttribute("activity_time"))->appendChild($xmldoc->createTextNode($r->activity_time));
                 foreach ($r->activity as $a) {
                     $title = $xmldoc->createElement("title");
                     $title->appendChild($xmldoc->createAttribute("lang"))->appendChild($xmldoc->createTextNode($a->lang));
