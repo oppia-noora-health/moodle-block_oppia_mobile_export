@@ -16,7 +16,7 @@
 
 class MobileActivityQuiz extends MobileActivity {
 
-    private $supportedtypes = array('multichoice', 'match', 'truefalse', 'description', 'shortanswer', 'numerical');
+    private $supportedtypes = array('multichoice', 'match', 'truefalse', 'description', 'shortanswer', 'numerical', 'essay');
     private $courseversion;
     private $summary;
     private $shortname;
@@ -106,8 +106,16 @@ class MobileActivityQuiz extends MobileActivity {
             }
         }
         if ($countomitted == count($qs)) {
-            $this->isvalid = false;
-        }
+            // Allow if only essays.
+	    $onlyEssay = true;
+	    foreach ($qs as $q) {
+		if ($q->qtype != 'essay') {
+		    $onlyEssay = false;
+		    break;
+		}
+	    }
+	    $this->isvalid = $onlyEssay;
+	}
     }
 
     public function has_password() {
@@ -162,11 +170,65 @@ class MobileActivityQuiz extends MobileActivity {
             );
 
             // Skip any essay questions.
+            //if ($q->qtype == 'essay') {
+                //echo get_string('export_quiz_skip_essay', PLUGINNAME).OPPIA_HTML_BR;
+                //continue;
+            //}
+            
             if ($q->qtype == 'essay') {
-                echo get_string('export_quiz_skip_essay', PLUGINNAME).OPPIA_HTML_BR;
+                // Get essay-specific options from Moodle table.
+                $essayoptions = $DB->get_record('qtype_essay_options', array('questionid' => $q->id));
+
+                // Always set these fields, using defaults if Moodle has no value.
+                $questionprops['response_format']   = 'plain';
+		$questionprops['response_required'] = 1;
+		$questionprops['input_box_size']    = 10;
+		$questionprops['min_word_limit']    = 0;
+		$questionprops['max_word_limit']    = 0;
+
+                // Add grading hints if available.
+                if (!empty($q->options->graderinfo)) {
+                $graderinfojson = extract_langs($q->options->graderinfo, true, !$this->keephtml, false);
+                $questionprops['graderinfo'] = json_decode($graderinfojson);
+                }
+
+                // Only generate question HTML file (no responses for essay).
+                if ($this->quizhtmlfiles) {
+                $question_title_langs = extract_langs($q->questiontext, false, false, false);
+                $temp_question_langs = array();
+                foreach ($question_title_langs as $lang => $text) {
+                    $temp_question_langs[$lang] = $this->generate_as_html(
+                    $q->contextid, 'question', $cm->id, $text, $lang, $q->id, null
+                    );
+                }
+                $questionprops["htmlfile"] = json_encode($temp_question_langs);
+                }
+
+                // Question title for JSON.
+                $questiontitle = extract_langs(
+                clean_html_entities($q->questiontext, true),
+                true, !$this->keephtml, false
+                );
+
+                // Build question JSON.
+                $questionjson = array(
+                "id" => rand(1, 1000),
+                "type" => 'essay',
+                "title" => json_decode($questiontitle),
+                "props" => $questionprops,
+                "responses" => array() // No predefined responses for essay.
+                );
+
+                // Add to quiz questions list.
+                $quizjsonquestions[] = array(
+                'order' => $i,
+                'id' => rand(1, 1000),
+                'question' => $questionjson
+                );
+
+                $i++;
                 continue;
             }
-
             // Skip any random questions.
             if ($q->qtype == 'random') {
                 echo get_string('export_quiz_skip_random', PLUGINNAME).OPPIA_HTML_BR;
