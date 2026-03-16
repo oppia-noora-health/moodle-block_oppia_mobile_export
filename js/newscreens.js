@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    // Utility function to detect if device supports touch
+    const isTouchDevice =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  
+    // ===== Reveal Content Functionality (from oppia.js) =====
     $("[name=reveal]").each(function (i) {
       var revealSection = $(this).addClass("showmore revealed");
       var target = $("#answer" + $(this).attr("id"));
@@ -29,34 +34,317 @@ $(document).ready(function () {
         revealSection.on("click", revealContent);
       }
     });
+    // ===== End Reveal Content Functionality =====
   
-    // Slider functionality
-    let slides = Array.from(document.querySelectorAll("slide"));
-    let sliderContainer = slides.length > 0 ? slides[0].parentNode : null;
+    // slides 23,24
+    const $cardSlider = $(".card-slider"); // Scope to the specific HTML structure
+    const $cardStack = $cardSlider.find(".card-stack"); // Find the card stack within the slider
+    const $cards = $cardStack.children().toArray();
   
-    if (slides.length === 0) {
-      const possibleContainers = document.querySelectorAll(
-        ".container, intro-section, video-section, audio-section, noor-section, content-section, info-section, what-we-learned-section, next-lesson-section, index-section, chapter-section, definition-section, activity-time-section",
-      );
+    let startX = 0;
+    let endX = 0;
+    let isDragging = false;
   
-      for (const container of possibleContainers) {
-        const contentSlides = Array.from(container.children).filter(
-          (child) => child.tagName && child.tagName.toLowerCase() === "content",
-        );
-        if (contentSlides.length > 1) {
-          slides = contentSlides;
-          sliderContainer = container;
-          break;
+    // Function to reorder cards
+    function reorderCards() {
+      const firstCard = $cards.shift(); // Remove the first card
+      $cards.push(firstCard); // Add it to the end
+      $cardStack.append(firstCard); // Update the DOM
+  
+      // Update card styles
+      $($cards).each(function (index, card) {
+        if (index === 0) {
+          $(card).css({ transform: "translateY(0) rotate(0deg)", zIndex: 3 });
+        } else if (index === 1) {
+          $(card).css({
+            transform: "translateY(20px) rotate(-5deg)",
+            zIndex: 2,
+          });
+        } else {
+          $(card).css({
+            transform: "translateY(40px) rotate(5deg)",
+            zIndex: 1,
+          });
         }
+      });
+    }
+  
+    // Touch functionality
+    $cardStack.on("touchstart", function (e) {
+      startX = e.originalEvent.touches[0].clientX;
+    });
+  
+    $cardStack.on("touchmove", function (e) {
+      endX = e.originalEvent.touches[0].clientX;
+    });
+  
+    $cardStack.on("touchend", function () {
+      if (startX > endX + 50) {
+        reorderCards(); // Swipe left
+      }
+    });
+  
+    // Mouse functionality for desktop
+    $cardStack.on("mousedown", function (e) {
+      isDragging = true;
+      startX = e.clientX;
+      e.preventDefault();
+    });
+  
+    $(document).on("mousemove", function (e) {
+      if (isDragging) {
+        endX = e.clientX;
+      }
+    });
+  
+    $(document).on("mouseup", function () {
+      if (isDragging && startX > endX + 50) {
+        reorderCards(); // Swipe left
+      }
+      isDragging = false;
+    });
+    //end
+  
+    //slides 9,10,12,13
+    const $contentSlider = $(".content-slider");
+    const $contentSlides = $contentSlider.find(".slide");
+    const $navigationDots = $contentSlider.find(".dot");
+  
+    let currentContentSlide = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isContentDragging = false;
+  
+    // Function to show a specific slide
+    function showContentSlide(index) {
+      $contentSlides.each(function (i, slide) {
+        $(slide).toggleClass("active", i === index);
+      });
+  
+      $navigationDots.each(function (i, dot) {
+        $(dot).toggleClass("active", i === index);
+      });
+    }
+  
+    // Add event listeners for navigation dots
+    $navigationDots.each(function (index, dot) {
+      $(dot).on("click", function () {
+        currentContentSlide = index;
+        showContentSlide(currentContentSlide);
+      });
+    });
+  
+    // Touch functionality
+    $contentSlider.on("touchstart", function (e) {
+      touchStartX = e.originalEvent.touches[0].clientX; // Record the starting touch position
+    });
+  
+    $contentSlider.on("touchmove", function (e) {
+      touchEndX = e.originalEvent.touches[0].clientX; // Continuously update the current touch position
+    });
+  
+    $contentSlider.on("touchend", function () {
+      if (touchStartX > touchEndX + 50) {
+        // Swipe left
+        if (currentContentSlide < $contentSlides.length - 1) {
+          currentContentSlide++;
+          showContentSlide(currentContentSlide);
+        }
+      } else if (touchStartX < touchEndX - 50) {
+        // Swipe right
+        if (currentContentSlide > 0) {
+          currentContentSlide--;
+          showContentSlide(currentContentSlide);
+        }
+      }
+    });
+  
+    // Mouse functionality for desktop
+    $contentSlider.on("mousedown", function (e) {
+      isContentDragging = true;
+      touchStartX = e.clientX;
+      e.preventDefault();
+    });
+  
+    $(document).on("mousemove", function (e) {
+      if (isContentDragging) {
+        touchEndX = e.clientX;
+      }
+    });
+  
+    $(document).on("mouseup", function () {
+      if (isContentDragging) {
+        if (touchStartX > touchEndX + 50) {
+          // Swipe left
+          if (currentContentSlide < $contentSlides.length - 1) {
+            currentContentSlide++;
+            showContentSlide(currentContentSlide);
+          }
+        } else if (touchStartX < touchEndX - 50) {
+          // Swipe right
+          if (currentContentSlide > 0) {
+            currentContentSlide--;
+            showContentSlide(currentContentSlide);
+          }
+        }
+      }
+      isContentDragging = false;
+    });
+  
+    // Initialize the first slide
+    showContentSlide(currentContentSlide);
+    //end
+  
+    // slides 3,4,5
+    const $storySlider = $(".story-slider"); // Scope to the specific slider
+    const $storySliderSlides = $storySlider.find(".slide");
+    const $storySliderNextButton = $storySlider.find(".next-button");
+    const $storySliderPrevButton = $storySlider.find(".prev-button");
+  
+    let storySliderCurrentSlide = 0;
+  
+    // Function to update the active slide
+    function updateStorySliderSlide(index) {
+      $storySliderSlides.each(function (i, slide) {
+        $(slide).toggleClass("active", i === index);
+      });
+  
+      // Update button visibility based on the current slide
+      if (storySliderCurrentSlide === 0) {
+        $storySliderPrevButton.hide(); // Hide the Previous button for the first slide
+        $storySliderNextButton.css("display", "flex"); // Show the Next button
+      } else if (storySliderCurrentSlide === $storySliderSlides.length - 1) {
+        $storySliderPrevButton.css("display", "flex"); // Show the Previous button
+        $storySliderNextButton.hide(); // Hide the Next button for the last slide
+      } else {
+        $storySliderPrevButton.css("display", "flex"); // Show both buttons in the middle slides
+        $storySliderNextButton.css("display", "flex");
       }
     }
   
+    // Event Listener for Next Button
+    $storySliderNextButton.on("click", function () {
+      if (storySliderCurrentSlide < $storySliderSlides.length - 1) {
+        storySliderCurrentSlide++;
+        updateStorySliderSlide(storySliderCurrentSlide);
+      }
+    });
+  
+    // Event Listener for Previous Button
+    $storySliderPrevButton.on("click", function () {
+      if (storySliderCurrentSlide > 0) {
+        storySliderCurrentSlide--;
+        updateStorySliderSlide(storySliderCurrentSlide);
+      }
+    });
+  
+    // Initialize the first slide
+    updateStorySliderSlide(storySliderCurrentSlide);
+    // end
+  
+    // slides 14,15,16,17
+    const $infoScreen = $(".info-screen"); // Target the specific container
+    const $infoScreenSlides = $infoScreen.find(".feedback-design");
+    const $infoScreenPrevButton = $infoScreen.find(".prev-button");
+    const $infoScreenNextButton = $infoScreen.find(".next-button");
+    let infoScreenCurrentSlide = 0;
+  
+    function infoScreenShowSlide(index) {
+      $infoScreenSlides.each(function (i) {
+        $(this).toggleClass("active", i === index);
+      });
+      $infoScreenPrevButton.prop("disabled", index === 0);
+      $infoScreenNextButton.prop(
+        "disabled",
+        index === $infoScreenSlides.length - 1,
+      );
+    }
+  
+    $infoScreenPrevButton.on("click", function () {
+      if (infoScreenCurrentSlide > 0) {
+        infoScreenCurrentSlide--;
+        infoScreenShowSlide(infoScreenCurrentSlide);
+      }
+    });
+  
+    $infoScreenNextButton.on("click", function () {
+      if (infoScreenCurrentSlide < $infoScreenSlides.length - 1) {
+        infoScreenCurrentSlide++;
+        infoScreenShowSlide(infoScreenCurrentSlide);
+      }
+    });
+  
+    infoScreenShowSlide(infoScreenCurrentSlide);
+    // end
+  
+    //slide 6
+    $(".survey-feedback-screen .quote").on("click", function () {
+      $(".survey-feedback-screen .quote").removeClass("selected"); // Remove selection from other quotes in the same scope
+      $(this).addClass("selected"); // Add selection to clicked quote
+    });
+  
+    const $popupScreen = $(".popup-screen"); // Target the specific container
+    const $popupScreenStartScreen = $popupScreen.find("#startScreen");
+    const $popupScreenOptionsScreen = $popupScreen.find("#optionsScreen");
+    const $popupScreenPopups = [
+      $popupScreen.find("#popup1"),
+      $popupScreen.find("#popup2"),
+      $popupScreen.find("#popup3"),
+    ];
+    const $popupScreenButtons = [
+      $popupScreen.find("#button1"),
+      $popupScreen.find("#button2"),
+      $popupScreen.find("#button3"),
+    ];
+    const $popupScreenStartNextButton = $popupScreen.find("#startNext");
+  
+    let popupScreenCurrentPopup = 0;
+  
+    $popupScreenStartNextButton.on("click", function () {
+      $popupScreenStartScreen.fadeOut(300, function () {
+        $popupScreenOptionsScreen.fadeIn(300).removeClass("hidden");
+      });
+    });
+  
+    function popupScreenShowPopup(index) {
+      $popupScreenPopups[index].removeClass("hidden").fadeIn();
+      $popupScreenButtons[index].removeClass("highlight");
+    }
+  
+    function popupScreenClosePopup(index) {
+      $popupScreenPopups[index].fadeOut(function () {
+        $(this).addClass("hidden");
+      });
+  
+      if (index + 1 < $popupScreenButtons.length) {
+        $popupScreenButtons[index + 1]
+          .prop("disabled", false)
+          .addClass("highlight");
+      }
+    }
+  
+    $popupScreenButtons.forEach((button, index) => {
+      button.on("click", function () {
+        popupScreenShowPopup(index);
+      });
+    });
+  
+    $popupScreen.find(".close-button").on("click", function () {
+      const popupIndex = $popupScreenPopups.findIndex((popup) =>
+        popup.is($(this).closest(".popup")),
+      );
+      popupScreenClosePopup(popupIndex);
+    });
+  
+    // ===== General Slider Functionality (from oppia.js) =====
+    const slides = document.querySelectorAll("slide");
     const totalSlides = slides.length;
   
-    if (totalSlides > 0 && sliderContainer) {
+    if (totalSlides > 0) {
       let currentSlide = 0;
       slides[currentSlide].classList.add("active");
-      const slide = slides[0];
+      const slide = document.querySelector("slide");
+      const sliderContainer = slide.parentNode;
       const slideStyle = window.getComputedStyle(slide);
       const slideWidth =
         slide.offsetWidth +
@@ -124,16 +412,6 @@ $(document).ready(function () {
             paginationItems[currentSlide].classList.add("active");
           } else {
             paginationItems[currentSlide + 1].classList.remove("active");
-          }
-          // Sync inline backgroundColor on ALL pagination items so changes are
-          // visible even when external code (e.g. HtmlContentRenderer) sets
-          // inline styles that override the CSS class-based colors.
-          for (var i = 0; i < paginationItems.length; i++) {
-            paginationItems[i].style.backgroundColor = paginationItems[
-              i
-            ].classList.contains("active")
-              ? "#04966e"
-              : "darkgrey";
           }
         }
   
@@ -340,8 +618,9 @@ $(document).ready(function () {
         updateButtonVisibility();
       }
     }
+    // ===== End General Slider Functionality =====
   
-    // Cards functionality
+    // ===== Cards Functionality (from oppia.js) =====
     const cards = document.querySelectorAll("card");
   
     if (cards.length > 0) {
@@ -396,7 +675,9 @@ $(document).ready(function () {
         }, 700);
       });
     }
+    // ===== End Cards Functionality =====
   
+    // ===== Know-More Modal Functionality (from oppia.js) =====
     var knowMoreButtons = $("know-more item");
     if (knowMoreButtons.length) {
       var modalFade = $('<div class="modal-fade"></div>')
@@ -422,8 +703,9 @@ $(document).ready(function () {
         });
       });
     }
+    // ===== End Know-More Modal Functionality =====
   
-    // Buttons functionality
+    // ===== Noora-Button Toggle Functionality (from oppia.js) =====
     $("noora-button").on("click", function () {
       const clickedButton = $(this);
   
@@ -438,7 +720,9 @@ $(document).ready(function () {
         clickedButton.attr("color", "green");
       }
     });
+    // ===== End Noora-Button Toggle Functionality =====
   
+    // ===== Audio Player Functionality (from oppia.js) =====
     var currentPlayIcon = null;
   
     $(".audio-player-container").each(function (i, elem) {
@@ -477,7 +761,7 @@ $(document).ready(function () {
       $(seekSlider)
         .on("input", (e) => {
           rangeInput = e.target;
-          if (rangeInput === seekSlider[0]) {
+          if (rangeInput === seekSlider) {
             playerContainer.css(
               "--seek-before-width",
               (rangeInput.value / rangeInput.max) * 100 + "%",
@@ -555,8 +839,105 @@ $(document).ready(function () {
         duration.text(calculateTime(audio.duration));
       });
     });
+    // ===== End Audio Player Functionality =====
+  
+    // ===== Multi-Content Section Navigation =====
+    // Automatically detect containers with multiple <content> sections and add slide navigation
+    // Uses existing #prevBtn/#nextBtn pattern from the SCSS styles
+  
+    // Find all containers that have multiple <content> children (not inside card elements)
+    $(
+      "info-section, noor-section, content-section, feedback-section, activity-section",
+    ).each(function () {
+      const $container = $(this);
+      const $contentSections = $container.find("> content");
+  
+      // Only add navigation if there are multiple content sections and no existing nav buttons
+      if (
+        $contentSections.length > 1 &&
+        $container.find("#prevBtn, #nextBtn").length === 0
+      ) {
+        let currentIndex = 0;
+  
+        // Wrap content sections in a slider container if not already wrapped
+        if ($container.find("#slider-container").length === 0) {
+          $contentSections.wrapAll('<div id="slider-container"></div>');
+        }
+  
+        const $sliderContainer = $container.find("#slider-container");
+  
+        // Add navigation buttons using existing styles
+        $container.append('<button id="prevBtn">←</button>');
+        $container.append('<button id="nextBtn">→</button>');
+  
+        const $prevBtn = $container.find("#prevBtn");
+        const $nextBtn = $container.find("#nextBtn");
+  
+        // Initially hide prev button
+        $prevBtn.hide();
+  
+        // Function to show a specific slide
+        function showSlide(index) {
+          if (index < 0 || index >= $contentSections.length) return;
+  
+          currentIndex = index;
+  
+          // Slide the container
+          const slideWidth = 100; // 100vw per slide
+          $sliderContainer.css(
+            "transform",
+            `translateX(-${index * slideWidth}vw)`,
+          );
+  
+          // Update button visibility
+          $prevBtn.toggle(index > 0);
+          $nextBtn.toggle(index < $contentSections.length - 1);
+        }
+  
+        // Button click handlers
+        $prevBtn.on("click", function () {
+          if (currentIndex > 0) {
+            showSlide(currentIndex - 1);
+          }
+        });
+  
+        $nextBtn.on("click", function () {
+          if (currentIndex < $contentSections.length - 1) {
+            showSlide(currentIndex + 1);
+          }
+        });
+  
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+  
+        $sliderContainer.on("touchstart", function (e) {
+          touchStartX = e.originalEvent.touches[0].clientX;
+        });
+  
+        $sliderContainer.on("touchend", function (e) {
+          touchEndX = e.originalEvent.changedTouches[0].clientX;
+          const diff = touchStartX - touchEndX;
+  
+          if (Math.abs(diff) > 50) {
+            if (diff > 0 && currentIndex < $contentSections.length - 1) {
+              // Swipe left - next
+              showSlide(currentIndex + 1);
+            } else if (diff < 0 && currentIndex > 0) {
+              // Swipe right - previous
+              showSlide(currentIndex - 1);
+            }
+          }
+        });
+  
+        // Initialize first slide
+        showSlide(0);
+      }
+    });
+    // ===== End Multi-Content Section Navigation =====
   });
   
+  // ===== Change Audio Source Function (from oppia.js) =====
   function changeAudioSource(newSource) {
     $("audio").each(function (i, audioElement) {
       audioElement.src =

@@ -162,6 +162,7 @@ $string['export_sequencing_desc'] = 'Set the sequencing mode of the course. Here
 $string['export_sequencing_none'] = 'None';
 $string['export_sequencing_course'] = 'Sequencing through whole course';
 $string['export_sequencing_section'] = 'Sequencing within a section';
+$string['export_sequencing_through_section'] = 'Sequencing through sections';
 $string['export_sequencing_label'] = 'Sequencing mode';
 
 $string['export_thumbnail_sizes_title'] = 'Thumbnail icon sizes';

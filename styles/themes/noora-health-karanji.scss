@@ -1,7 +1,17 @@
 $pink: #dd3e77;
-$orange: #faa31a;
+//$orange: #FAA31A;
+$orange: #faa820;
 $blue: #37b7e6;
-$green: #04966e;
+//$green: #04966E;
+$green: #00956e;
+
+$softgray: #e7e7e7;
+$softblack: #383838;
+$softblue: #dff3fb;
+
+$white: #ffffff;
+$title: #606060;
+$support: #afafaf;
 
 $primary-color: $pink;
 $primary-color-dark: #a81e4f;
@@ -17,9 +27,9 @@ $table-header-bg-color: $primary-color;
 html {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
-/* Hide horizontal scrollbars globally, keep vertical scrollbars visible */
 ::-webkit-scrollbar {
   width: 8px; /* vertical scrollbar width */
   height: 0; /* horizontal scrollbar height - hide */
@@ -39,23 +49,33 @@ html {
 }
 
 @font-face {
+  font-family: "Noto Sans";
+  src: url("style_resources/fonts/NotoSans-VariableFont_wdth\,wght.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "Poppins";
-  src: url("style_resources/fonts/Poppins-Regular.ttf");
+  // src: url('style_resources/fonts/Poppins-Regular.ttf');
+  src: url("style_resources/fonts/NotoSans-VariableFont_wdth\,wght.ttf");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Poppins Medium";
-  src: url("style_resources/fonts/Poppins-Medium.ttf");
+  // src: url('style_resources/fonts/Poppins-Medium.ttf');
+  src: url("style_resources/fonts/NotoSans-VariableFont_wdth\,wght.ttf");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Poppins Light";
-  src: url("style_resources/fonts/Poppins-Light.ttf");
-  font-weight: 100;
+  // src: url('style_resources/fonts/Poppins-Light.ttf');
+  src: url("style_resources/fonts/NotoSans-VariableFont_wdth\,wght.ttf");
+  font-weight: 300;
   font-style: normal;
 }
 
@@ -145,22 +165,12 @@ intro-section {
 
 video-section {
   @extend .container;
-  background-image:
-    url("style_resources/shapes/square-orange.svg"),
-    url("style_resources/shapes/square-blue-border.svg"),
-    url("style_resources/shapes/square-orange.svg"),
-    url("style_resources/shapes/square-blue-border.svg");
-  background-position:
-    top 15vh right -15vw,
-    top -25vh right -40vw,
-    bottom 15vh left -15vw,
-    bottom -25vh left -40vw;
-  background-size:
-    100px 100px,
-    300px 300px,
-    100px 100px,
-    300px 300px;
-  background-repeat: no-repeat;
+  // background-image: url('style_resources/shapes/square-orange.svg'), url('style_resources/shapes/square-blue-border.svg'),
+  //                   url('style_resources/shapes/square-orange.svg'), url('style_resources/shapes/square-blue-border.svg');
+  // background-position: top 15vh right -15vw, top -25vh right -40vw,
+  //                       bottom 15vh left -15vw, bottom -25vh left -40vw;
+  // background-size: 100px 100px, 300px 300px, 100px 100px, 300px 300px;
+  // background-repeat: no-repeat;
   justify-content: center;
   flex-direction: column;
   text-align: center;
@@ -210,46 +220,62 @@ noor-section {
   @extend .container;
   align-items: unset !important;
 
+  &[color="pink"] {
+    background-color: $pink;
+    color: $white;
+  }
+  &[color="orange"] {
+    background-color: $orange;
+    color: $white;
+  }
+  &[color="blue"] {
+    background-color: $blue;
+    color: $white;
+  }
+  &[color="green"] {
+    background-color: $green;
+    color: $white;
+  }
+  &[color="softblue"] {
+    background-color: $softblue;
+  }
+
   content,
   slide {
     @extend .content;
-    background-color: #37b7e6;
-    background-image:
-      url("style_resources/shapes/square-green.svg"),
-      url("style_resources/shapes/square-pink.svg");
-    background-position:
-      top -35vh left -40vw,
-      bottom -30vh right -40vw;
-    background-size: 300px 300px;
-    background-repeat: no-repeat;
+    // background-color: #37B7E6;
 
-    &:nth-of-type(even) {
-      background-image:
-        url("style_resources/shapes/square-green.svg"),
-        url("style_resources/shapes/square-pink.svg");
-      background-position:
-        top -35vh left 60vw,
-        bottom -30vh right 60vw;
+    // background-image: url('style_resources/shapes/square-green.svg'), url('style_resources/shapes/square-pink.svg');
+    // background-position: top -35vh left -40vw, bottom -30vh right -40vw;
+    // background-size: 300px 300px;
+    // background-repeat: no-repeat;
+
+    // &:nth-of-type(even) {
+    //   background-image: url('style_resources/shapes/square-green.svg'), url('style_resources/shapes/square-pink.svg');
+    //   background-position: top -35vh left 60vw, bottom -30vh right 60vw;
+    // }
+    img {
+      width: 60vw;
+      max-width: 100%;
+      @media (min-width: 1024px) {
+        max-width: 200px;
+      }
     }
   }
 
   p {
-    color: white;
+    //color: white;
     font-size: 1.3em;
+
     font-family: "Poppins", sans-serif;
     line-height: 1.2em;
-  }
-
-  #prevBtn,
-  #nextBtn {
-    color: white;
   }
 }
 
 content-section {
   @extend .container;
   align-items: unset !important;
-  background-color: $orange;
+  //background-color: $orange;
 
   &[color="pink"] {
     background-color: $pink;
@@ -379,41 +405,38 @@ info-section {
   content {
     max-width: 100px;
   }
+
+  img {
+    object-fit: cover;
+    width: 50vw;
+    height: 50vw;
+    max-width: 300px;
+    max-height: 300px;
+  }
+
   content,
   slide {
     @extend .content;
-    background-image:
-      url("style_resources/shapes/square-blue.svg"),
-      url("style_resources/shapes/square-green-border.svg");
-    background-position:
-      top -5vh right -15vw,
-      bottom -25vh left -40vw;
-
-    @media (min-width: 1024px) {
-      background-position:
-        top -25px right 85vw,
-        bottom -220px left 60vw;
-    }
-    background-size:
-      100px 100px,
-      300px 300px;
-    background-repeat: no-repeat;
+    // background-image:
+    //   url("style_resources/shapes/square-blue.svg"),
+    //   url("style_resources/shapes/square-green-border.svg");
+    // background-position:
+    //   top -5vh right -15vw,
+    //   bottom -25vh left -40vw;
+    // background-size:
+    //   100px 100px,
+    //   300px 300px;
+    // background-repeat: no-repeat;
     padding: 5% !important;
 
-    &:nth-of-type(even) {
-      background-image:
-        url("style_resources/shapes/square-blue.svg"),
-        url("style_resources/shapes/square-green-border.svg");
-      background-position:
-        top -5vh right 85vw,
-        bottom -25vh left 60vw;
-
-      @media (min-width: 1024px) {
-        background-position:
-          top -25px right 85vw,
-          bottom -220px left 60vw;
-      }
-    }
+    // &:nth-of-type(even) {
+    //   background-image:
+    //     url("style_resources/shapes/square-blue.svg"),
+    //     url("style_resources/shapes/square-green-border.svg");
+    //   background-position:
+    //     top -5vh right 85vw,
+    //     bottom -25vh left 60vw;
+    // }
   }
 
   #prevBtn,
@@ -426,15 +449,53 @@ info-section {
     content,
     slide {
       @extend .content;
-      background-image:
-        url("style_resources/shapes/square-blue-border.svg"),
-        url("style_resources/shapes/square-blue-border.svg");
-      background-position:
-        top -40vh left -40vw,
-        bottom -40vh right -40vw;
-      background-size: 300px 300px;
-      background-repeat: no-repeat;
+      // background-image:
+      //   url("style_resources/shapes/square-blue-border.svg"),
+      //   url("style_resources/shapes/square-blue-border.svg");
+      // background-position:
+      //   top -40vh left -40vw,
+      //   bottom -40vh right -40vw;
+      // background-size: 300px 300px;
+      // background-repeat: no-repeat;
       padding: 5% !important;
+    }
+  }
+  &[type="feedback-2"] {
+    content {
+      padding-top: 50px !important;
+      justify-content: bottom !important;
+    }
+
+    content,
+    slide {
+      @extend .content;
+      background-image: none !important;
+      background-position: unset !important;
+      background-size: unset !important;
+      background-repeat: unset !important;
+      padding-top: 200px !important;
+      padding-bottom: 0 !important;
+
+      p {
+        //font-family: 'Noto Sans', sans-serif;
+        color: $softblack;
+      }
+
+      noora-button:nth-of-type(1) {
+        margin-top: 5%; /* Extend background beyond padding area */
+
+        @media (min-width: 1024px) {
+          margin-top: 20px;
+        }
+      }
+      p:nth-of-type(1),
+      p:nth-of-type(2) {
+        display: block;
+        width: 100%; /* Ensures full section width */
+        background-color: $softgray; /* Light grey background */
+        padding: 20px; /* Add padding to create spacing */
+        margin: 0 -5%; /* Extend background beyond padding area */
+      }
     }
   }
   &[type="gallery"] {
@@ -446,21 +507,13 @@ info-section {
 
     content,
     slide {
-      background-image:
-        url("style_resources/shapes/square-green-border.svg"),
-        url("style_resources/shapes/square-orange.svg");
-      background-position:
-        top -30vh right -45vw,
-        bottom -5vh left -5vw;
-      background-size: 300px, 100px;
-      &:nth-of-type(even) {
-        background-image:
-          url("style_resources/shapes/square-green-border.svg"),
-          url("style_resources/shapes/square-orange.svg");
-        background-position:
-          top -30vh left -45vw,
-          bottom -5vh right -5vw;
-      }
+      //background-image: url('style_resources/shapes/square-green-border.svg'), url('style_resources/shapes/square-orange.svg');
+      //background-position: top -30vh right -45vw, bottom -5vh left -5vw;
+      //background-size: 300px, 100px;
+      //&:nth-of-type(even) {
+      //  background-image: url('style_resources/shapes/square-green-border.svg'), url('style_resources/shapes/square-orange.svg');
+      //  background-position: top -30vh left -45vw, bottom -5vh right -5vw;
+      //}
 
       img {
         object-fit: cover;
@@ -474,8 +527,6 @@ info-section {
       @media (min-width: 1024px) {
         img {
           margin: 20px 0;
-          width: 18vw;
-          height: 18vw;
         }
       }
     }
@@ -483,55 +534,85 @@ info-section {
   &[type="1"] {
     content,
     slide {
-      background-image:
-        url("style_resources/shapes/square-blue.svg"),
-        url("style_resources/shapes/square-green-border.svg");
-      &:nth-of-type(even) {
-        background-image:
-          url("style_resources/shapes/square-blue.svg"),
-          url("style_resources/shapes/square-green-border.svg");
-      }
+      // background-image:
+      //   url("style_resources/shapes/square-blue.svg"),
+      //   url("style_resources/shapes/square-green-border.svg");
+      // &:nth-of-type(even) {
+      //   background-image:
+      //     url("style_resources/shapes/square-blue.svg"),
+      //     url("style_resources/shapes/square-green-border.svg");
+      // }
     }
   }
   &[type="2"] {
     content,
     slide {
       padding: 10% !important;
-      background-image:
-        url("style_resources/shapes/square-pink.svg"),
-        url("style_resources/shapes/square-orange-border.svg");
-      &:nth-of-type(even) {
-        background-image:
-          url("style_resources/shapes/square-pink.svg"),
-          url("style_resources/shapes/square-orange-border.svg");
-      }
+      // background-image:
+      //   url("style_resources/shapes/square-pink.svg"),
+      //   url("style_resources/shapes/square-orange-border.svg");
+      // &:nth-of-type(even) {
+      //   background-image:
+      //     url("style_resources/shapes/square-pink.svg"),
+      //     url("style_resources/shapes/square-orange-border.svg");
+      // }
     }
   }
   &[type="3"] {
     content,
     slide {
       padding: 10% !important;
-      background-image:
-        url("style_resources/shapes/square-orange.svg"),
-        url("style_resources/shapes/square-blue-border.svg");
-      &:nth-of-type(even) {
-        background-image:
-          url("style_resources/shapes/square-orange.svg"),
-          url("style_resources/shapes/square-blue-border.svg");
-      }
+      // background-image:
+      //   url("style_resources/shapes/square-orange.svg"),
+      //   url("style_resources/shapes/square-blue-border.svg");
+      // &:nth-of-type(even) {
+      //   background-image:
+      //     url("style_resources/shapes/square-orange.svg"),
+      //     url("style_resources/shapes/square-blue-border.svg");
+      // }
     }
   }
   &[type="4"] {
     content,
     slide {
       padding: 10% !important;
-      background-image:
-        url("style_resources/shapes/square-pink.svg"),
-        url("style_resources/shapes/square-green-border.svg");
-      &:nth-of-type(even) {
-        background-image:
-          url("style_resources/shapes/square-pink.svg"),
-          url("style_resources/shapes/square-green-border.svg");
+      // background-image:
+      //   url("style_resources/shapes/square-pink.svg"),
+      //   url("style_resources/shapes/square-green-border.svg");
+      // &:nth-of-type(even) {
+      //   background-image:
+      //     url("style_resources/shapes/square-pink.svg"),
+      //     url("style_resources/shapes/square-green-border.svg");
+      // }
+    }
+  }
+  &[type="5"] {
+    content,
+    slide {
+      background-image: none !important;
+      background-position: unset !important;
+      background-size: unset !important;
+      padding: 0 !important;
+
+      p {
+        font-family: "Noto Sans", sans-serif;
+        color: $softblack;
+      }
+      img {
+        width: 250px;
+        height: 250px;
+        object-fit: contain;
+        display: block;
+      }
+      text-content {
+        flex: 1;
+        background-color: $softgray;
+        color: white;
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+        display: block;
+        box-sizing: border-box;
       }
     }
   }
@@ -539,36 +620,36 @@ info-section {
 
 what-we-learned-section {
   @extend .container;
-  background-image:
-    url("style_resources/shapes/double_circle.svg"),
-    url("style_resources/shapes/double_circle.svg"),
-    url("style_resources/shapes/double_circle.svg"),
-    url("style_resources/shapes/double_circle.svg"),
-    url("style_resources/shapes/double_circle.svg"),
-    url("style_resources/shapes/double_circle.svg");
-  background-position:
-    top -20% left -60%,
-    top 0 right -80%,
-    top -15% right 20%,
-    bottom -20% right -50%,
-    bottom -10% left 50%,
-    bottom 10% left -90%;
-  background-size:
-    200px 200px,
-    200px 200px,
-    100px 100px,
-    200px 200px,
-    100px 100px,
-    200px 200px;
-  background-repeat: no-repeat;
+  // background-image:
+  //   url("style_resources/shapes/double_circle.svg"),
+  //   url("style_resources/shapes/double_circle.svg"),
+  //   url("style_resources/shapes/double_circle.svg"),
+  //   url("style_resources/shapes/double_circle.svg"),
+  //   url("style_resources/shapes/double_circle.svg"),
+  //   url("style_resources/shapes/double_circle.svg");
+  // background-position:
+  //   top -20% left -60%,
+  //   top 0 right -80%,
+  //   top -15% right 20%,
+  //   bottom -20% right -50%,
+  //   bottom -10% left 50%,
+  //   bottom 10% left -90%;
+  // background-size:
+  //   200px 200px,
+  //   200px 200px,
+  //   100px 100px,
+  //   200px 200px,
+  //   100px 100px,
+  //   200px 200px;
+  // background-repeat: no-repeat;
 
   img {
     height: auto;
-    width: 30vw;
-    background-color: white;
+    width: 40vw;
+
     border-radius: 50%;
     border: 15px solid $orange;
-    padding: 6%;
+    padding: 10%;
     box-sizing: content-box;
     overflow: visible;
     margin: 0;
@@ -582,13 +663,6 @@ what-we-learned-section {
     font-family: "Poppins Medium", sans-serif;
     line-height: 1.2em;
     padding: 5% 10%;
-  }
-
-  @media (min-width: 1024px) {
-    card {
-      top: auto;
-      bottom: 80px;
-    }
   }
 }
 
@@ -606,20 +680,51 @@ next-lesson-section {
 
   padding: 5%;
   justify-content: center;
+  &[color="pink"] {
+    background-color: $pink;
+    color: $white;
+  }
+  &[color="orange"] {
+    background-color: $orange;
+    color: $white;
+  }
+  &[color="blue"] {
+    background-color: $blue;
+    color: $white;
+  }
+  &[color="green"] {
+    background-color: $green;
+    color: $white;
+  }
+  &[color="softblue"] {
+    background-color: $softblue;
+    color: black;
+  }
+
+  img {
+    max-width: 70%;
+    height: auto;
+    margin-bottom: 1rem;
+
+    @media (min-width: 1024px) {
+      max-width: 200px;
+    }
+  }
 }
 
 index-section {
   @extend .container;
-  background-image:
-    url("style_resources/shapes/square-orange.svg"),
-    url("style_resources/shapes/square-blue-border.svg");
-  background-position:
-    top -5vh right -5vw,
-    bottom -30vh left -40vw;
-  background-size:
-    100px 100px,
-    300px 300px;
-  background-repeat: no-repeat;
+  background-color: $softgray;
+  // background-image:
+  //   url("style_resources/shapes/square-orange.svg"),
+  //   url("style_resources/shapes/square-blue-border.svg");
+  // background-position:
+  //   top -5vh right -5vw,
+  //   bottom -30vh left -40vw;
+  // background-size:
+  //   100px 100px,
+  //   300px 300px;
+  // background-repeat: no-repeat;
 
   content {
     @extend .content;
@@ -628,9 +733,9 @@ index-section {
     item {
       display: flex;
       width: 100%;
-      max-width: 1200px;
       position: relative;
-      border: 2px solid grey;
+      background-color: $white;
+      // border: 2px solid grey;
       padding: 5%;
       text-align: center;
       align-items: center;
@@ -639,7 +744,9 @@ index-section {
       font-weight: 900;
 
       @media (min-width: 1024px) {
-        padding: 25px;
+        max-width: 1200px;
+
+        padding: 30px;
       }
 
       &[color="pink"] {
@@ -687,28 +794,61 @@ index-section {
   }
 }
 
+// chapter-section {
+//   @extend .container;
+//   // background-color: $pink;
+
+//   content {
+//     @extend .content;
+//     font-size: 1.3em;
+//     color: $softblack;
+//     gap: 24px;
+//     padding: 5% !important;
+
+//       img {
+//         height: auto;
+//         width: 50vw;
+//         background-color: white;
+//         //border-radius: 50%;
+//         //border: 15px solid $orange;
+//         padding: 10%;
+//         box-sizing: content-box;
+//         overflow: visible;
+//         margin: 0;
+//       }
+//       p{
+//         background-color: $softgray
+//       }
+//   }
+// }
+
 chapter-section {
   @extend .container;
-  background-color: $pink;
-  overflow-x: hidden;
+  // background-color: $pink;
+
   content {
     @extend .content;
     font-size: 1.3em;
-    color: white;
+    color: $softblack;
     gap: 24px;
-    padding: 1% !important;
+    padding: 5% !important;
 
     img {
       height: auto;
-      width: 40vw;
-      max-width: 200px;
+      width: 50vw;
       background-color: white;
-      border-radius: 50%;
-      border: 15px solid $orange;
-      padding: 75px;
+      //border-radius: 50%;
+      //border: 15px solid $orange;
+      padding: 10%;
       box-sizing: content-box;
       overflow: visible;
       margin: 0;
+      @media (min-width: 1024px) {
+        max-width: 250px;
+      }
+    }
+    p {
+      background-color: $softgray;
     }
   }
 }
@@ -730,15 +870,15 @@ definition-section {
       object-fit: cover;
       margin: 24px 0;
       @media (min-width: 1024px) {
-        max-width: 300px;
+        max-width: 500px;
       }
     }
   }
 
   #prevBtn,
   #nextBtn {
-    border-radius: 25px;
-    background-color: $orange;
+    border-radius: 50px;
+    background-color: $pink;
     font-size: 1.2em;
     font-weight: 900;
     color: white;
@@ -746,29 +886,21 @@ definition-section {
     padding: 5px 30px;
     bottom: 5vh;
     top: unset;
-    content: unset;
   }
   #prevBtn {
     left: 10vw;
-
-    &:after {
-      padding-left: 5px;
-      content: "PREV";
-    }
   }
 
   #nextBtn {
     right: 10vw;
-
-    &:before {
-      padding-right: 5px;
-      content: "NEXT";
-    }
   }
 }
 
 feedback-result {
   display: flex;
+  color: $white;
+  justify-content: center;
+  align-items: center;
 
   feedback-card {
     width: 100vw;
@@ -780,37 +912,66 @@ feedback-result {
     border: 5px solid $green;
     outline: 3px dashed $green;
     padding: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     &[color="pink"] {
-      border: 5px solid $pink;
-      outline: 3px dashed $pink;
+      background-color: $pink;
+      // border: 5px solid $pink;
+      // outline: 3px dashed $pink;
     }
     &[color="blue"] {
-      border: 5px solid $blue;
-      outline: 3px dashed $blue;
+      background-color: $blue;
+      // border: 5px solid $blue;
+      // outline: 3px dashed $blue;
     }
     &[color="orange"] {
-      border: 5px solid $orange;
-      outline: 3px dashed $orange;
+      background-color: $orange;
+      // border: 5px solid $orange;
+      // outline: 3px dashed $orange;
     }
     &[color="green"] {
-      border: 5px solid $green;
-      outline: 3px dashed $green;
+      background-color: $green;
+      //border: 5px solid $green;
+      //outline: 3px dashed $green;
     }
 
     content {
-      background-color: #fdfaf7;
+      // background-color: #fdfaf7;
       text-align: left !important;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       answer {
         width: 100%;
-        color: $pink;
         display: flex;
         box-sizing: border-box;
         background-color: white;
         text-align: center;
-        border: 1px solid grey;
+        //border: 1px solid grey;
         padding: 5%;
+        justify-content: center;
+        &[color="pink"] {
+          color: $pink;
+        }
+        &[color="green"] {
+          color: $green;
+        }
+      }
+
+      h1 {
+        text-align: center;
+        width: 100%;
+        color: $white;
+      }
+
+      p {
+        text-align: center;
+        width: 80%;
+        color: $white;
       }
     }
   }
@@ -819,14 +980,14 @@ feedback-result {
 activity-time-section {
   @extend .container;
   background-color: #444746;
-  background-image:
-    url("style_resources/shapes/square-pink.svg"),
-    url("style_resources/shapes/square-blue.svg");
-  background-position:
-    top -35vh right -35vw,
-    bottom -35vh left -35vw;
-  background-size: 300px 300px;
-  background-repeat: no-repeat;
+  // background-image:
+  //   url("style_resources/shapes/square-pink.svg"),
+  //   url("style_resources/shapes/square-blue.svg");
+  // background-position:
+  //   top -35vh right -35vw,
+  //   bottom -35vh left -35vw;
+  // background-size: 300px 300px;
+  // background-repeat: no-repeat;
 
   content {
     @extend .content;
@@ -836,8 +997,10 @@ activity-time-section {
       width: 50%;
       height: auto;
       margin-bottom: 25px;
-      max-width: 200px;
-      max-height: fit-content;
+      @media (min-width: 1024px) {
+        max-width: 200px;
+        max-height: fit-content;
+      }
     }
 
     h1 {
@@ -913,12 +1076,12 @@ know-more {
     @extend card;
     margin: 5%;
 
-    color: #333;
-    border: 3px solid $pink;
+    color: $white;
+    //border: 3px solid $pink;
 
     display: flex;
     align-items: center;
-    background: white !important;
+    background: $pink !important;
 
     &.lead {
       font-size: 1.3em;
@@ -930,6 +1093,7 @@ know-more {
       top: 24px;
       width: 28px;
       height: 28px;
+      color: $white;
 
       &:before,
       &:after {
@@ -938,7 +1102,8 @@ know-more {
         content: " ";
         height: 33px;
         width: 2px;
-        background-color: $pink;
+        background-color: $white;
+        color: $white;
       }
       &:before {
         transform: rotate(45deg);
@@ -949,23 +1114,27 @@ know-more {
     }
 
     &[color="blue"] {
-      max-width: 600px;
-      max-height: 600px;
-      left: 50%;
-      transform: translateX(-50%);
+      width: auto;
+      left: 0;
+      right: 0;
       top: 10%;
       padding: 5%;
 
-      @media (min-width: 1024px) {
-        padding: 20px;
-      }
-
       border: 5px solid $blue;
       outline: 3px dashed $blue;
-      img {
-        max-width: 170px;
-        max-height: 170px;
+
+      @media (min-width: 1024px) {
+        max-width: 600px;
+        max-height: 600px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 20px;
+        img {
+          max-width: 170px;
+          max-height: 170px;
+        }
       }
+
       h1,
       h2 {
         color: $blue;
@@ -1238,6 +1407,24 @@ noor {
   padding: 10px;
   z-index: 1;
   touch-action: none;
+
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+
+  @media (min-width: 1024px) {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    display: block;
+    background-color: transparent;
+    color: inherit;
+  }
 }
 
 #prevBtn {
@@ -1250,46 +1437,53 @@ noor {
 card {
   width: 65vw;
   min-height: 65vw;
-
   position: absolute;
   top: 20%;
   left: 12%;
   right: 12%;
   display: grid;
-  border-radius: 40px;
-  outline-offset: -20px;
+  // outline-offset: -20px;
   padding: 15px;
   transition: transform 0.5s ease;
   transform-origin: bottom center;
   cursor: pointer;
-  background-color: white;
+  // background-color: white;
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
   @media (min-width: 768px) {
-    max-height: 450px;
+    max-height: 350px;
     min-height: 350px;
     max-width: 400px;
     left: calc(50% - 200px);
-    top: calc(50% - 300px);
+    top: calc(50% - 155px);
   }
+
   &[color="pink"] {
     border: 5px solid $pink;
-    outline: 3px dashed $pink;
+    background-color: $pink;
+    color: $white;
+    // outline: 3px dashed $pink;
   }
 
   &[color="blue"] {
     border: 5px solid $blue;
-    outline: 3px dashed $blue;
+    background-color: $blue;
+    color: $white;
+    // outline: 3px dashed $blue;
   }
 
   &[color="orange"] {
     border: 5px solid $orange;
-    outline: 3px dashed $orange;
+    background-color: $orange;
+    color: $white;
+    // outline: 3px dashed $orange;
   }
 
   &[color="green"] {
     border: 5px solid $green;
-    outline: 3px dashed $green;
+    background-color: $green;
+    color: $white;
+    // outline: 3px dashed $green;
   }
 
   &[left] {
@@ -1307,19 +1501,23 @@ card {
   content,
   card-content {
     @extend .content;
-    height: 100%;
+    height: auto;
     padding: 5%;
-    background-color: #fdfaf7;
+    @media screen and (min-width: 768px) {
+      padding: 20px;
+    }
+    // background-color: #FDFAF7;
     border-radius: 20px;
 
     img {
       height: auto;
       width: 25%;
       min-width: 80px;
-      max-width: 90%;
-      max-height: 50%;
+      max-width: 9%;
+      max-height: 80%;
       object-fit: contain;
       pointer-events: none;
+      // background-color: white;
     }
 
     p {
@@ -1376,7 +1574,7 @@ card {
 }
 
 noora-button {
-  border-radius: 25px;
+  border-radius: 50px;
   background-color: $green;
   font-family: "Poppins", sans-serif;
   line-height: 1.2em;
@@ -1398,6 +1596,11 @@ noora-button {
   }
   &[color="green"] {
     background-color: $green;
+  }
+  &[color="white"] {
+    background-color: white;
+    color: $softblack;
+    border: 1px solid $softblack;
   }
 }
 
